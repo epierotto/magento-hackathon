@@ -8,10 +8,10 @@ memcached:
   stdin_open: true
 magento-db:
   environment:
-    MYSQL_ROOT_PASSWORD: lXDmqkxitcI2OYOH
-    MYSQL_USER: magento
-    MYSQL_PASSWORD: lXDmqkxitcI2OYOH
-    MYSQL_DATABASE: magento
+    MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    MYSQL_USER: ${MYSQL_USER}
+    MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    MYSQL_DATABASE: ${MYSQL_DATABASE}
   log_driver: ''
   labels:
     io.rancher.container.pull_image: always
