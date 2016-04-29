@@ -1,13 +1,46 @@
 .catalog:
-  name: "Test"
+  name: "Magento"
   version: "v0.1"
-  description: "Test"
-  uuid: test-0
+  description: "Magento Hackathon!!"
+  uuid: magento-0
   questions: 
-    - variable: "EXPAND"
-      label: "Text"
-      description: "Some text to add"
-      default: ""
+    - variable: "MYSQL_ROOT_PASSWORD"
+      label: "mysql root password"
+      description: "Password that will be set for the MySQL root superuser account"
+      default: "magento"
       required: false
       type: "string"
-
+    - variable: "MYSQL_USER"
+      label: "magento mysql username"
+      description: "Magento MySQL username"
+      default: "magento"
+      required: true
+      type: "string"
+    - variable: "MYSQL_PASSWORD"
+      label: "magento mysql password"
+      description: "Password that will be set for the MySQL Magento account"
+      default: "magento"
+      required: true
+      type: "string"
+    - variable: "MYSQL_DATABASE"
+      label: "magento mysql database"
+      description: "Magento MySQL Database"
+      default: "magento"
+      required: true
+      type: "string"
+memcached:
+  scale: 1
+magento-db:
+  scale: 1
+magento:
+  scale: 1
+magento-lb:
+  scale: 1
+  load_balancer_config:
+    haproxy_config: {}
+  health_check:
+    port: 42
+    interval: 2000
+    unhealthy_threshold: 3
+    healthy_threshold: 2
+    response_timeout: 2000

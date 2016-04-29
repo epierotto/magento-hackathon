@@ -1,20 +1,41 @@
-# Start proxy first as this makes certificates if necessary
-ssl-proxy:
-  image: sshipway/nginx:1.9.9
+memcached:
+  log_driver: ''
+  labels:
+    io.rancher.container.pull_image: always
   tty: true
+  log_opt: {}
+  image: memcached
   stdin_open: true
-  environment: 
-    NGINX_CONFIG: >
-      server {\n
-        listen 443 ssl;\n
-        ssl_certificate     certs/registry.crt;\n
-        ssl_certificate_key certs/registry.key;\n
-        location / {\n
-          proxy_set_header X-Forwarded-Host-A \$http_host;\n
-          proxy_set_header X-Forwarded-Host-B $$http_host;\n
-          proxy_set_header X-Forwarded-Host-C $http_host;\n
-        }\n
-      }\n
-    NGINX_CERT_FILE: /etc/nginx/certs/registry.crt
-    NGINX_KEY_FILE: /etc/nginx/certs/registry.key
+magento-db:
+  environment:
+    MYSQL_ROOT_PASSWORD: lXDmqkxitcI2OYOH
+    MYSQL_USER: magento
+    MYSQL_PASSWORD: lXDmqkxitcI2OYOH
+    MYSQL_DATABASE: magento
+  log_driver: ''
+  labels:
+    io.rancher.container.pull_image: always
+  tty: true
+  log_opt: {}
+  image: mysql
+  stdin_open: true
+magento:
+  environment:
+    MYSQL_HOST: magento-db
+    MEMCACHED_HOST: memcached
+  log_driver: ''
+  labels:
+    io.rancher.container.pull_image: always
+  tty: true
+  log_opt: {}
+  image: usman/magento:multinode
+  stdin_open: true
+magento-lb:
+  ports:
+  - 80:80
+  tty: true
+  image: rancher/load-balancer-service
+  links:
+  - magento:magento
+  stdin_open: true
 
